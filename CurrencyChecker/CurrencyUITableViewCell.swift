@@ -11,8 +11,8 @@ class CurrencyUITableViewCell: UITableViewCell {
 
     @IBOutlet weak var countryImageView: UIImageView!
     @IBOutlet weak var currencyLabel: UILabel!
-    @IBOutlet weak var buyLabel: UILabel!
-    @IBOutlet weak var sellLabel: UILabel!
+//    @IBOutlet weak var buyLabel: UILabel!
+//    @IBOutlet weak var sellLabel: UILabel!
     @IBOutlet weak var centralBankLabel: UILabel!
     
     
