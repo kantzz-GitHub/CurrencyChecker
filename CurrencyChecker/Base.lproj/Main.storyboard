@@ -122,17 +122,6 @@
                                     <action selector="deleteButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="faV-i0-IL1"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u6H-l0-G7M">
-                                <rect key="frame" x="148" y="793" width="118" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="u6H-l0-G7M" secondAttribute="height" multiplier="118:31" id="6rg-vF-cSz"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Refresh"/>
-                                <connections>
-                                    <action selector="refreshButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fc0-fC-LbO"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CBU Rate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="El5-Ma-goT">
                                 <rect key="frame" x="244" y="251.5" width="110" height="20"/>
                                 <constraints>
@@ -159,16 +148,13 @@
                             <constraint firstItem="7uS-DZ-39z" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="R5q-8s-Z7F"/>
                             <constraint firstItem="8Ru-Fi-cCH" firstAttribute="top" secondItem="7uS-DZ-39z" secondAttribute="bottom" constant="15" id="SZs-dy-K0h"/>
                             <constraint firstItem="FoS-qw-frV" firstAttribute="top" secondItem="7uS-DZ-39z" secondAttribute="bottom" constant="155" id="bbR-UI-eFM"/>
-                            <constraint firstItem="u6H-l0-G7M" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="148" id="hQe-c1-ayz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FoS-qw-frV" secondAttribute="trailing" constant="60" id="syV-I2-UJg"/>
                             <constraint firstItem="440-ic-ljt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="twi-eP-QDj"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="u6H-l0-G7M" secondAttribute="bottom" constant="38" id="yL3-KS-aM9"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addButton" destination="8Ru-Fi-cCH" id="rgi-ms-Dfg"/>
                         <outlet property="deleteButton" destination="KfV-Ho-jhg" id="BTR-8t-5G1"/>
-                        <outlet property="refreshButton" destination="u6H-l0-G7M" id="sWt-H5-jZP"/>
                         <outlet property="searchTextField" destination="7uS-DZ-39z" id="gGM-OM-fFe"/>
                         <outlet property="tableView" destination="FoS-qw-frV" id="CYM-kM-Lma"/>
                     </connections>

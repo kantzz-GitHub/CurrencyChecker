@@ -12,26 +12,31 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var refreshButton: UIButton!
     
     
     
-    var currencies = ["USD", "RUB", "EUR"]
     var currencyData = [CurrencyData]()
     var currenciesToShow = [CurrencyData]()
+    var savedData: [String] = []
+    
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(savedData.count)
         
-        tableView.delegate = self
         tableView.dataSource = self
         
         downloadJSON {
             self.tableView.reloadData()
         }
+//        if let showTableView = defaults.array(forKey: "ShowTableView") as? [CurrencyData] {
+//            currenciesToShow = showTableView
+//        }
+        loadData()
     }
     
-    //    var currencyManager = CurrencyManager()
+
     @IBAction func addButtonPressed(_ sender: UIButton) {
         guard searchTextField.text != "" else {
             searchTextField.placeholder = "Type the currency name"
@@ -45,6 +50,9 @@ class ViewController: UIViewController {
             return
         }
         if let name = currencyData.first(where: {$0.Ccy == searchedCurrency}) {
+            savedData.append(searchedCurrency!)
+            saveData()
+            
             currenciesToShow.append(name)
             searchTextField.text = ""
             searchTextField.placeholder = "\(searchedCurrency!) added"
@@ -54,6 +62,8 @@ class ViewController: UIViewController {
             searchTextField.placeholder = "Don't have \(searchedCurrency!)"
         }
         tableView.reloadData()
+//        defaults.set(currenciesToShow, forKey: "ShowTableView")
+//        saveData()
         
     }
     
@@ -65,6 +75,10 @@ class ViewController: UIViewController {
         }
         let searchedCurrency = searchTextField.text
         if let name = currenciesToShow.first(where: {$0.Ccy == searchedCurrency!}){
+            
+            savedData = savedData.filter(){$0 != searchedCurrency}
+            saveData()
+            
             currenciesToShow = currenciesToShow.filter(){$0.Ccy != name.Ccy}
             searchTextField.text = ""
             searchTextField.placeholder = "\(searchedCurrency!) deleted"
@@ -74,15 +88,29 @@ class ViewController: UIViewController {
             searchTextField.placeholder = "Don't have \(searchedCurrency!)"
         }
         tableView.reloadData()
+//        defaults.set(currenciesToShow, forKey: "ShowTableView")
+//        saveData()
         
     }
     
-    
-    
-    @IBAction func refreshButtonPressed(_ sender: UIButton) {
-        
-        tableView.reloadData()
+    func saveData(){
+        defaults.set(savedData, forKey: "ShowTableView")
     }
+    
+    func loadData(){
+        if let data = defaults.array(forKey: "ShowTableView") as? [String] {
+                    savedData = data
+        }
+            for i in 0..<savedData.count{
+                if let name = currencyData.first(where: {$0.Ccy == savedData[i]}) {
+                    currenciesToShow.append(name)
+            }
+        }
+            tableView.reloadData()
+    }
+
+        
+    
     
     func downloadJSON(completed: @escaping () -> ()){
         let url = URL(string: "https://cbu.uz/oz/arkhiv-kursov-valyut/json/")
@@ -118,26 +146,4 @@ extension ViewController: UITableViewDataSource{
         return cell
     }
 }
-
-
-
-
-//MARK: - UITableViewDelegate
-extension ViewController: UITableViewDelegate{
-    
-}
-
-//extension ViewController: CurrencyManagerDelegate{
-//    func didUpdateCurrency(currency: [CurrencyData]) {
-//        DispatchQueue.main.async {
-//            print(currency.count)
-//        }
-//    }
-//
-//    func didFailWithError(error: Error) {
-//        print(error)
-//    }
-//
-//
-//}
 
