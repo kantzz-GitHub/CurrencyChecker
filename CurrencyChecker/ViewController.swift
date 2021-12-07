@@ -7,111 +7,72 @@
 
 import UIKit
 
+protocol PassDataDelegate: AnyObject{
+    func update()
+}
+
 class ViewController: UIViewController {
+    
+    
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var addButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
-    
-    
     
     var currencyData = [CurrencyData]()
     var currenciesToShow = [CurrencyData]()
-    var savedData: [String] = []
+    var currencies = [String]()
+    var lolKek = [String]()
     
     let defaults = UserDefaults.standard
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(savedData.count)
+        
+        loadUserDefaults()
         
         tableView.dataSource = self
+        tableView.delegate = self
         
         downloadJSON {
+            self.loadData(currency: self.currencies)
             self.tableView.reloadData()
         }
-//        if let showTableView = defaults.array(forKey: "ShowTableView") as? [CurrencyData] {
-//            currenciesToShow = showTableView
-//        }
-        loadData()
-    }
-    
-
-    @IBAction func addButtonPressed(_ sender: UIButton) {
-        guard searchTextField.text != "" else {
-            searchTextField.placeholder = "Type the currency name"
-            return
-        }
         
-        let searchedCurrency = searchTextField.text
-        if currenciesToShow.contains(where: {$0.Ccy == searchedCurrency}){
-            searchTextField.text = ""
-            searchTextField.placeholder = "Already have \(searchedCurrency!)"
-            return
-        }
-        if let name = currencyData.first(where: {$0.Ccy == searchedCurrency}) {
-            savedData.append(searchedCurrency!)
-            saveData()
-            
-            currenciesToShow.append(name)
-            searchTextField.text = ""
-            searchTextField.placeholder = "\(searchedCurrency!) added"
-            tableView.reloadData()
-        } else {
-            searchTextField.text = ""
-            searchTextField.placeholder = "Don't have \(searchedCurrency!)"
-        }
+        loadData(currency: currencies)
         tableView.reloadData()
-//        defaults.set(currenciesToShow, forKey: "ShowTableView")
-//        saveData()
         
     }
     
-    
-    @IBAction func deleteButtonPressed(_ sender: UIButton) {
-        guard searchTextField.text != "" else {
-            searchTextField.placeholder = "Type the currency name"
-            return
-        }
-        let searchedCurrency = searchTextField.text
-        if let name = currenciesToShow.first(where: {$0.Ccy == searchedCurrency!}){
-            
-            savedData = savedData.filter(){$0 != searchedCurrency}
-            saveData()
-            
-            currenciesToShow = currenciesToShow.filter(){$0.Ccy != name.Ccy}
-            searchTextField.text = ""
-            searchTextField.placeholder = "\(searchedCurrency!) deleted"
-            tableView.reloadData()
-        } else {
-            searchTextField.text = ""
-            searchTextField.placeholder = "Don't have \(searchedCurrency!)"
-        }
-        tableView.reloadData()
-//        defaults.set(currenciesToShow, forKey: "ShowTableView")
-//        saveData()
-        
-    }
-    
-    func saveData(){
-        defaults.set(savedData, forKey: "ShowTableView")
-    }
-    
-    func loadData(){
-        if let data = defaults.array(forKey: "ShowTableView") as? [String] {
-                    savedData = data
-        }
-            for i in 0..<savedData.count{
-                if let name = currencyData.first(where: {$0.Ccy == savedData[i]}) {
-                    currenciesToShow.append(name)
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "toChange"{
+                if let toChangeVC = segue.destination as? SecondViewController{
+                    toChangeVC.delegate = self
+                }
             }
         }
-            tableView.reloadData()
-    }
-
+    func loadUserDefaults(){
         
+        if let array = UserDefaults.standard.object(forKey: "SecondVCCurrencies") as? [String]{
+            currencies = array
+        }
+    }
     
+    @IBAction func changeButtonPressed(_ sender: UIButton) {
+        
+    }
     
+    func loadData(currency: [String]){
+        
+        let newCTS = [CurrencyData]()
+        currenciesToShow = newCTS
+        for i in 0..<currency.count{
+            print(currency[i])
+        if let name = currencyData.first(where: {$0.Ccy == currency[i]}) {
+                currenciesToShow.append(name)
+            }
+        }
+        tableView.reloadData()
+    }
+ 
     func downloadJSON(completed: @escaping () -> ()){
         let url = URL(string: "https://cbu.uz/oz/arkhiv-kursov-valyut/json/")
         URLSession.shared.dataTask(with: url!) { data, response, error in
@@ -130,8 +91,8 @@ class ViewController: UIViewController {
     }
 }
 
-//MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource{
+//MARK: - UITableViewDataSource, UITableViewDelegate
+extension ViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currenciesToShow.count
     }
@@ -144,6 +105,14 @@ extension ViewController: UITableViewDataSource{
         cell.countryImageView.image = UIImage(named: currenciesToShow[indexPath.row].Ccy)
         cell.centralBankLabel.text = currenciesToShow[indexPath.row].Rate
         return cell
+    }
+}
+
+extension ViewController: PassDataDelegate{
+    func update() {
+
+        loadUserDefaults()
+        loadData(currency: currencies)
     }
 }
 
