@@ -113,6 +113,16 @@
                                     <segue destination="FnN-pF-0x9" kind="presentation" identifier="toChange" id="zf4-4K-lhh"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last updated: " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbV-bP-n4W">
+                                <rect key="frame" x="79" y="93" width="275" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="275" id="Vwh-PL-EbF"/>
+                                    <constraint firstAttribute="height" constant="20" id="ePl-2K-kpr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -123,19 +133,22 @@
                             <constraint firstItem="tlR-hF-VVA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="151" id="Nec-tw-sCz"/>
                             <constraint firstItem="FoS-qw-frV" firstAttribute="top" secondItem="El5-Ma-goT" secondAttribute="bottom" constant="2" id="NzL-g1-UFf"/>
                             <constraint firstItem="FoS-qw-frV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="100" id="eNw-Um-7bu"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qbV-bP-n4W" secondAttribute="trailing" constant="60" id="fH1-EU-dEG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tlR-hF-VVA" secondAttribute="bottom" constant="70" id="iYE-9z-acA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FoS-qw-frV" secondAttribute="trailing" constant="60" id="syV-I2-UJg"/>
                             <constraint firstItem="440-ic-ljt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="twi-eP-QDj"/>
+                            <constraint firstItem="qbV-bP-n4W" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="49" id="zYd-Cy-Wu3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vvZ-O5-T4u"/>
                     <connections>
+                        <outlet property="lastUpdatedTime" destination="qbV-bP-n4W" id="qpE-kq-hlG"/>
                         <outlet property="tableView" destination="FoS-qw-frV" id="CYM-kM-Lma"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="33" y="96"/>
+            <point key="canvasLocation" x="31.884057971014496" y="95.758928571428569"/>
         </scene>
         <!--Second View Controller-->
         <scene sceneID="S2r-L4-eVb">

@@ -45,6 +45,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8470C552275FA93D0027D072 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				848769F5275A257900752468 /* CurrencyData.swift */,
+				84BAF97E27592B36005F6FE3 /* CurrencyUITableViewCell.swift */,
+				84BAF97C27591FA0005F6FE3 /* Constants.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8470C553275FA95A0027D072 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84BAF96E27591DA3005F6FE3 /* Main.storyboard */,
+				84BAF97327591DA5005F6FE3 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8470C554275FA96A0027D072 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				84BAF96C27591DA3005F6FE3 /* ViewController.swift */,
+				8470C550275F0D370027D072 /* SecondViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		84BAF95C27591DA3005F6FE3 = {
 			isa = PBXGroup;
 			children = (
@@ -66,14 +94,10 @@
 			children = (
 				84BAF96827591DA3005F6FE3 /* AppDelegate.swift */,
 				84BAF96A27591DA3005F6FE3 /* SceneDelegate.swift */,
-				848769F5275A257900752468 /* CurrencyData.swift */,
-				84BAF97E27592B36005F6FE3 /* CurrencyUITableViewCell.swift */,
-				84BAF96C27591DA3005F6FE3 /* ViewController.swift */,
-				8470C550275F0D370027D072 /* SecondViewController.swift */,
-				84BAF96E27591DA3005F6FE3 /* Main.storyboard */,
+				8470C552275FA93D0027D072 /* Models */,
+				8470C553275FA95A0027D072 /* Views */,
+				8470C554275FA96A0027D072 /* Controllers */,
 				84BAF97127591DA5005F6FE3 /* Assets.xcassets */,
-				84BAF97327591DA5005F6FE3 /* LaunchScreen.storyboard */,
-				84BAF97C27591FA0005F6FE3 /* Constants.swift */,
 				84BAF97627591DA5005F6FE3 /* Info.plist */,
 			);
 			path = CurrencyChecker;

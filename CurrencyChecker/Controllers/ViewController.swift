@@ -13,19 +13,24 @@ protocol PassDataDelegate: AnyObject{
 
 class ViewController: UIViewController {
     
-    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var lastUpdatedTime: UILabel!
+    
+    let myRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender: )), for: .valueChanged)
+        return refreshControl
+    }()
     
     var currencyData = [CurrencyData]()
     var currenciesToShow = [CurrencyData]()
     var currencies = [String]()
-    var lolKek = [String]()
     
     let defaults = UserDefaults.standard
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.refreshControl = myRefreshControl
         
         loadUserDefaults()
         
@@ -42,17 +47,33 @@ class ViewController: UIViewController {
         
     }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "toChange"{
-                if let toChangeVC = segue.destination as? SecondViewController{
-                    toChangeVC.delegate = self
-                }
+    func updateTime(){
+        let today = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        var time = ""
+        time = formatter.string(from: today)
+        lastUpdatedTime.text = "Last updated: \(time)"
+        //        print(time)
+        defaults.set(time, forKey: K.updatedTimeKey)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == K.segueIdentifier{
+            if let toChangeVC = segue.destination as? SecondViewController{
+                toChangeVC.delegate = self
             }
         }
+    }
+    
     func loadUserDefaults(){
         
-        if let array = UserDefaults.standard.object(forKey: "SecondVCCurrencies") as? [String]{
+        if let array = UserDefaults.standard.object(forKey: K.currenciesKey) as? [String]{
             currencies = array
+        }
+        
+        if let timeString = UserDefaults.standard.object(forKey: K.updatedTimeKey) as? String{
+            lastUpdatedTime.text = "Last updated: \(timeString)"
         }
     }
     
@@ -65,16 +86,16 @@ class ViewController: UIViewController {
         let newCTS = [CurrencyData]()
         currenciesToShow = newCTS
         for i in 0..<currency.count{
-            print(currency[i])
-        if let name = currencyData.first(where: {$0.Ccy == currency[i]}) {
+            //            print(currency[i])
+            if let name = currencyData.first(where: {$0.Ccy == currency[i]}) {
                 currenciesToShow.append(name)
             }
         }
         tableView.reloadData()
     }
- 
+    
     func downloadJSON(completed: @escaping () -> ()){
-        let url = URL(string: "https://cbu.uz/oz/arkhiv-kursov-valyut/json/")
+        let url = URL(string: K.cbuAPI)
         URLSession.shared.dataTask(with: url!) { data, response, error in
             if error == nil{
                 do{
@@ -93,6 +114,19 @@ class ViewController: UIViewController {
 
 //MARK: - UITableViewDataSource, UITableViewDelegate
 extension ViewController: UITableViewDataSource, UITableViewDelegate{
+    //    let myRefreshControl: UIRefreshControl = {
+    //        let refreshControl = UIRefreshControl()
+    //        refreshControl.addTarget(self, action: #selector(refresh(sender: )), for: .valueChanged)
+    //        return refreshControl
+    //    }()
+    
+    @objc private func refresh(sender: UIRefreshControl){
+        
+        update()
+        updateTime()
+        sender.endRefreshing()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currenciesToShow.count
     }
@@ -108,11 +142,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate{
     }
 }
 
+//MARK: - PassDataDelegate
 extension ViewController: PassDataDelegate{
+    
     func update() {
-
+        
         loadUserDefaults()
         loadData(currency: currencies)
+        tableView.reloadData()
     }
 }
 

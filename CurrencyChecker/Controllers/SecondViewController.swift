@@ -12,7 +12,7 @@ class SecondViewController: UIViewController {
     @IBOutlet weak var secondSearchTF: UITextField!
     @IBOutlet weak var secondTableView: UITableView!
     
-    var currencies = [String]()
+    var currencies = ["USD", "EUR", "RUB"]
     
     var cData = [CurrencyData]()
     
@@ -27,14 +27,13 @@ class SecondViewController: UIViewController {
         secondTableView.dataSource = self
         secondTableView.delegate = self
         
-        if let curr = defaults.array(forKey: "SecondVCCurrencies") as? [String]{
+        if let curr = defaults.array(forKey: K.currenciesKey) as? [String]{
             currencies = curr
         }
 
         downloadJSON {
             self.secondTableView.reloadData()
         }
-        
     }
     
     @IBAction func secondButtonPressed(_ sender: UIButton) {
@@ -52,15 +51,15 @@ class SecondViewController: UIViewController {
         }
         
         if let name = cData.first(where: {$0.Ccy == searchedCurrency}) {
-            print(cData.count)
+//            print(cData.count)
             let newString = searchedCurrency!
             currencies.append(newString)
             
-            for step in 0..<currencies.count{
-                print(currencies[step])
-            }
-            print("__________________")
-            print(currencies.count)
+//            for step in 0..<currencies.count{
+//                print(currencies[step])
+//            }
+//            print("__________________")
+//            print(currencies.count)
             saveCurrencies()
             
             secondSearchTF.text = ""
@@ -81,7 +80,7 @@ class SecondViewController: UIViewController {
     
     
     func downloadJSON(completed: @escaping () -> ()){
-        let url = URL(string: "https://cbu.uz/oz/arkhiv-kursov-valyut/json/")
+        let url = URL(string: K.cbuAPI)
         URLSession.shared.dataTask(with: url!) { data, response, error in
             if error == nil{
                 do{
@@ -98,11 +97,13 @@ class SecondViewController: UIViewController {
     }
     
     func saveCurrencies(){
-        defaults.set(currencies, forKey: "SecondVCCurrencies")
+        defaults.set(currencies, forKey: K.currenciesKey)
         delegate?.update()
     }
     
 }
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
 extension SecondViewController: UITableViewDelegate, UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -135,11 +136,11 @@ extension SecondViewController: UITableViewDelegate, UITableViewDataSource{
         
         tableView.endUpdates()
         
-        for step in 0..<currencies.count{
-            print(currencies[step])
-        }
-        print("__________________")
-        print(currencies.count)
+//        for step in 0..<currencies.count{
+//            print(currencies[step])
+//        }
+//        print("__________________")
+//        print(currencies.count)
         
         saveCurrencies()
     }
