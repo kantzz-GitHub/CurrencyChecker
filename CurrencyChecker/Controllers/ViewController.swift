@@ -54,7 +54,6 @@ class ViewController: UIViewController {
         var time = ""
         time = formatter.string(from: today)
         lastUpdatedTime.text = "Last updated: \(time)"
-        //        print(time)
         defaults.set(time, forKey: K.updatedTimeKey)
     }
     
@@ -114,11 +113,6 @@ class ViewController: UIViewController {
 
 //MARK: - UITableViewDataSource, UITableViewDelegate
 extension ViewController: UITableViewDataSource, UITableViewDelegate{
-    //    let myRefreshControl: UIRefreshControl = {
-    //        let refreshControl = UIRefreshControl()
-    //        refreshControl.addTarget(self, action: #selector(refresh(sender: )), for: .valueChanged)
-    //        return refreshControl
-    //    }()
     
     @objc private func refresh(sender: UIRefreshControl){
         

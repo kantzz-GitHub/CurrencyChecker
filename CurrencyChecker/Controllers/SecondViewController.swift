@@ -30,7 +30,7 @@ class SecondViewController: UIViewController {
         if let curr = defaults.array(forKey: K.currenciesKey) as? [String]{
             currencies = curr
         }
-
+        
         downloadJSON {
             self.secondTableView.reloadData()
         }
@@ -51,21 +51,18 @@ class SecondViewController: UIViewController {
         }
         
         if let name = cData.first(where: {$0.Ccy == searchedCurrency}) {
-//            print(cData.count)
+            
             let newString = searchedCurrency!
             currencies.append(newString)
             
-//            for step in 0..<currencies.count{
-//                print(currencies[step])
-//            }
-//            print("__________________")
-//            print(currencies.count)
             saveCurrencies()
             
             secondSearchTF.text = ""
             secondSearchTF.placeholder = "\(name.Ccy) added"
             secondTableView.reloadData()
+            
         } else {
+            
             secondSearchTF.text = ""
             secondSearchTF.placeholder = "Don't have \(searchedCurrency!)"
         }
@@ -131,42 +128,11 @@ extension SecondViewController: UITableViewDelegate, UITableViewDataSource{
         tableView.beginUpdates()
         
         currencies.remove(at: indexPath.row)
-
+        
         tableView.deleteRows(at: [indexPath], with: .fade)
         
         tableView.endUpdates()
         
-//        for step in 0..<currencies.count{
-//            print(currencies[step])
-//        }
-//        print("__________________")
-//        print(currencies.count)
-        
         saveCurrencies()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- // Get the new view controller using segue.destination.
- // Pass the selected object to the new view controller.
- }
- */
-
-
